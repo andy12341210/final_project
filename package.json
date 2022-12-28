@@ -1,0 +1,16 @@
+{
+  "name": "hw8",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-ws": "^5.11.2"
+  },
+  "scripts": {
+    "server": "cd backend && yarn start",
+    "start": "cd frontend && yarn start",
+    "install_all": "cd frontend && yarn install --freeze-lockfile && cd ../backend && yarn install --freeze-lockfile",
+    "build": "cd frontend && yarn build",
+    "deploy": "cd backend && yarn deploy"
+  }
+}
