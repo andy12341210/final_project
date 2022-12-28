@@ -45,8 +45,8 @@ const SelectMode = ()=>{
             <SelectWord>請選擇模式</SelectWord>
             <ButtonsWrapper>
                 <Button type='primary' size='large' onClick={selecting}>多人模式</Button>
-                <Button type='primary' size='large'>人機對戰</Button>
-                <Button type='primary' size='large'>創建房間</Button>
+                <Button type='primary' size='large' onClick={selecting}>人機對戰</Button>
+                <Button type='primary' size='large' onClick={selecting}>創建房間</Button>
             </ButtonsWrapper>
         </div>
     );

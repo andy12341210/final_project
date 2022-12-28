@@ -40,3 +40,68 @@
     left: 68vw;
     cursor: pointer;
 }
+
+#i0 {
+    position: absolute;
+    top: 0vh;
+    left: 16vw;
+    display: none;
+}
+#i1 {
+    position: absolute;
+    top: 0vh;
+    left: 16vw;
+    display: none;
+}
+#i2 {
+    position: absolute;
+    top: 50vh;
+    left: -8vw;
+    display: none;
+}
+#i3 {
+    position: absolute;
+    top: -50vh;
+    left: -8vw;
+    display: none;
+}
+#i4 {
+    position: absolute;
+    top: 0vh;
+    left: -32vw;
+    display: none;
+}
+#i5 {
+    position: absolute;
+    top: 0vh;
+    left: -32vw;
+    display: none;
+}
+#i6 {
+    position: absolute;
+    top: 0vh;
+    left: -40vw;
+    display: none;
+}
+
+#c0:hover #i0{
+    display: inline;
+}
+#c1:hover #i1{
+    display: inline;
+}
+#c2:hover #i2{
+    display: inline;
+}
+#c3:hover #i3{
+    display: inline;
+}
+#c4:hover #i4{
+    display: inline;
+}
+#c5:hover #i5{
+    display: inline;
+}
+#c6:hover #i6{
+    display: inline;
+}
