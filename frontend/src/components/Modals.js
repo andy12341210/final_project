@@ -1,7 +1,7 @@
 import { Input,Form,Modal} from 'antd'
 
 
-const NameModal = ({ open, onCreate }) => {
+const NameModal = ({ open, onCreate ,onCancel}) => {
     const [form] = Form.useForm();
     return (
     <Modal
@@ -9,6 +9,7 @@ const NameModal = ({ open, onCreate }) => {
     title="輸入你的暱稱"
     okText="確認"
     cancelText="取消"
+    onCancel={onCancel}
     onOk={() => {
         form.validateFields()
         .then((values) => {

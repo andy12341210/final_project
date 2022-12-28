@@ -48,6 +48,9 @@ const Home = () => {
     const openModal = ()=>{
         setIsModalOpen(true)
     }
+    const closeModal = ()=>{
+        setIsModalOpen(false)
+    }
 
     return (
         <div>
@@ -56,6 +59,7 @@ const Home = () => {
             <NameModal
                 open={isModalOpen}
                 onCreate={startGame}
+                onCancel={closeModal}
             />
         </div>
     );
