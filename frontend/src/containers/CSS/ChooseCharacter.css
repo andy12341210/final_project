@@ -1,0 +1,42 @@
+#c0 {
+    position: absolute;
+    top: 5vh;
+    left: 20vw;
+    cursor: pointer;
+}
+#c1 {
+    position: absolute;
+    top: 55vh;
+    left: 20vw;
+    cursor: pointer;
+}
+#c2 {
+    position: absolute;
+    top: 5vh;
+    left: 36vw;
+    cursor: pointer;
+}
+#c3 {
+    position: absolute;
+    top: 55vh;
+    left: 36vw;
+    cursor: pointer;
+}
+#c4 {
+    position: absolute;
+    top: 5vh;
+    left: 52vw;
+    cursor: pointer;
+}
+#c5 {
+    position: absolute;
+    top:55vh;
+    left: 52vw;
+    cursor: pointer;
+}
+#c6 {
+    position: absolute;
+    top: 30vh;
+    left: 68vw;
+    cursor: pointer;
+}

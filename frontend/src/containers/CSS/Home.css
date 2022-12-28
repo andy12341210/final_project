@@ -1,0 +1,18 @@
+.display {
+    opacity: 1;
+}
+
+.hide {
+    opacity: 0;
+}
+
+#animateWord {
+    color: blueviolet;
+    font-family: "Open Sans";
+    -webkit-text-stroke: 1px black;
+    font-size: 8vh;
+    position: absolute;
+    top: 85vh;
+    left: 40vw;
+    cursor: pointer;
+}

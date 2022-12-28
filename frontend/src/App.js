@@ -3,6 +3,7 @@ import { useState,useEffect,useRef} from 'react'
 import {useMonopoly} from './containers/hooks/useMonopoly'
 import Home from './containers/Home'
 import SelectMode from './containers/SelectMode'
+import ChooseCharacter from './containers/ChooseCharacter'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -16,11 +17,13 @@ const Wrapper = styled.div`
 `
 
 function App() {
-  const { isStarted} = useMonopoly()
+  const { isStarted,isSelected} = useMonopoly()
 
   return (
     <Wrapper>
-      {isStarted ?<Home/>:<SelectMode/>}
+      {!isStarted ?<Home/>:
+        !isSelected?<SelectMode/>:
+          <ChooseCharacter/>}
     </Wrapper>
   )
 }
