@@ -2,6 +2,7 @@ import {useMonopoly} from "./hooks/useMonopoly";
 import styled from 'styled-components'
 import { useEffect,useState } from "react";
 import "./CSS/Home.css"
+import { NameModal } from "../components/Modals";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +20,8 @@ const HomeImg = styled.img`
 `
 
 const Home = () => {
-    const {isStarted,setIsStarted} = useMonopoly();
+    const {isStarted,setIsStarted,playerNames,setPlayerNames} = useMonopoly();
+    const [isModalOpen,setIsModalOpen] = useState(false);
     const home_screen_img = require("../picture/home_screen/home_screen.png")
     let animateWord = document.getElementById("animateWord")
     let animationInterval
@@ -35,15 +37,26 @@ const Home = () => {
         return ()=>clearInterval(animationInterval)
     })
     
-    const startGame = ()=>{
+    const startGame = (name)=>{
+        let temp = playerNames;
+        temp[0] = name;
+        setPlayerNames(temp);
         setIsStarted(true);
         clearInterval(animationInterval);
+    }
+
+    const openModal = ()=>{
+        setIsModalOpen(true)
     }
 
     return (
         <div>
             <p id="animateWord" className="display" onClick={startGame}>Click to Start</p>
-            <HomeImg src={home_screen_img} alt="background" id="home_img" onClick={startGame}/>
+            <HomeImg src={home_screen_img} alt="background" id="home_img" onClick={openModal}/>
+            <NameModal
+                open={isModalOpen}
+                onCreate={startGame}
+            />
         </div>
     );
 }

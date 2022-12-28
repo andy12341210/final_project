@@ -1,0 +1,24 @@
+.IsPrepared {
+    border: 2vh solid #00FF00;
+}
+
+.NotPrepared {
+    border: 2vh solid red;
+}
+
+#p0 {
+    top: 10vh;
+    left: 22vw;
+}
+#p1 {
+    top: 10vh;
+    left: 53.5vw;
+}
+#p2 {
+    top: 50vh;
+    left: 22vw;
+}
+#p3 {
+    top: 50vh;
+    left: 53.5vw;
+}

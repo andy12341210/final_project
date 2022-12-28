@@ -105,3 +105,47 @@
 #c6:hover #i6{
     display: inline;
 }
+
+#f0 {
+    opacity: 0;
+}
+#f1 {
+    opacity: 0;
+}
+#f2 {
+    opacity: 0;
+}
+#f3 {
+    opacity: 0;
+}
+#f4 {
+    opacity: 0;
+}
+#f5 {
+    opacity: 0;
+}
+#f6 {
+    opacity: 0;
+}
+
+#c0:hover #f0{
+    opacity: 1;
+}
+#c1:hover #f1{
+    opacity: 1;
+}
+#c2:hover #f2{
+    opacity: 1;
+}
+#c3:hover #f3{
+    opacity: 1;
+}
+#c4:hover #f4{
+    opacity: 1;
+}
+#c5:hover #f5{
+    opacity: 1;
+}
+#c6:hover #f6{
+    opacity: 1;
+}

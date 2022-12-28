@@ -1,20 +1,19 @@
 import { Input,Form,Modal} from 'antd'
 
 
-const ChatModal = ({ open, onCreate, onCancel }) => {
+const NameModal = ({ open, onCreate }) => {
     const [form] = Form.useForm();
     return (
     <Modal
     open={open}
-    title="Create a new chat room"
-    okText="Create"
-    cancelText="Cancel"
-    onCancel={onCancel}
+    title="輸入你的暱稱"
+    okText="確認"
+    cancelText="取消"
     onOk={() => {
         form.validateFields()
         .then((values) => {
             form.resetFields();
-            onCreate(values);
+            onCreate(values.name);
         })
         .catch((e) => {
         window.alert(e);
@@ -23,11 +22,11 @@ const ChatModal = ({ open, onCreate, onCancel }) => {
     >
     <Form form={form} layout="vertical"
     name="form_in_modal">
-    <Form.Item name="name" label="Name"
+    <Form.Item name="name" label="暱稱"
         rules={[
         {
             required: true,
-            message: 'Error: Please enter the name of the person to chat!',
+            message: '請輸入暱稱',
         },
         ]}>
     <Input />
@@ -36,4 +35,4 @@ const ChatModal = ({ open, onCreate, onCancel }) => {
     </Modal>
 );};
 
-export default ChatModal;
+export {NameModal};

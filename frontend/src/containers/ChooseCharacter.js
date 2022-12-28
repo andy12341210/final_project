@@ -26,7 +26,7 @@ const Frame_img = styled.img`
 const Charcter_img = styled.img`
     position : relative;
     left:2vw;
-    top:-35vh;
+    top:-85vh;
     height:30vh;
     width:10vw;
     cursor:pointer;
@@ -42,13 +42,22 @@ const IntroBackground = styled.img`
     width:30vw;
     z-index:3;
 `
+const Fire_img = styled.img`
+    position:relative;
+    top:-49vh;
+    left:-5.5vh;
+    height:50vh;
+    width:20vw;
+    z-index:4;
+`
 
 const ChooseCharacter = ()=>{
 
-    const {Mode,setMode,isSelected,setIsSelected,setMycharacter} = useMonopoly()
+    const {Mode,setMode,isSelected,setIsCharacterChoosed,playerCharacters,setPlayerCharacters} = useMonopoly()
     const background_img = require("../picture/choose_character/background.png");
     const frame_img = require("../picture/choose_character/frame.png")
     const intro_img = require("../picture/choose_character/white.png")
+    const fire_img = require("../picture/choose_character/fire/fire.gif")
     const id_list = [0,1,2,3,4,5,6]
     const frame_list = ["c0","c1","c2","c3","c4","c5","c6"]
     const c0 = require("../picture/character/c0.png")
@@ -59,23 +68,28 @@ const ChooseCharacter = ()=>{
     const c5 = require("../picture/character/c5.png")
     const c6 = require("../picture/character/c6.png")
     const Charcter_img_list = [c0,c1,c2,c3,c4,c5,c6]
-    const selecting = (no)=>{
-        // setIsSelected(true);
-        // setMycharacter(no);
+    const selecting = (key)=>{
+        let temp = playerCharacters;
+        temp[0] = key
+        setIsCharacterChoosed(true);
+        setPlayerCharacters(temp);
     }
 
     return (
         <div>
-            <Background_img src={background_img} alt="background" id="home_img"/>\
-            {id_list.map((e)=>{
-                return <FrameWrapper id={frame_list[e]}>
-                    <Frame_img src={frame_img} alt="frame" />
-                    <Charcter_img src={Charcter_img_list[e]} alt={e} key={e} onClick={selecting(e)}/>
-                    <IntroWrapper id={"i"+e}>
-                        <IntroBackground src={intro_img} alt="intro" />
-                        <Introduction n={e}/>
-                    </IntroWrapper>
-                </FrameWrapper>
+            <Background_img src={background_img} alt="background" id="home_img"/>
+            {id_list.map((id)=>{
+                return <>
+                    <FrameWrapper id={frame_list[id]}>
+                        <Frame_img src={frame_img} alt="frame" />
+                        <Fire_img src={fire_img} alt="fire" id={"f"+id} onClick={e=>selecting(id)}/>
+                        <Charcter_img src={Charcter_img_list[id]} alt={id} key={id}/>
+                        <IntroWrapper id={"i"+id}>
+                            <IntroBackground src={intro_img} alt="intro" />
+                            <Introduction n={id}/>
+                        </IntroWrapper>
+                    </FrameWrapper>
+                </>
             })}
         </div>
     );
