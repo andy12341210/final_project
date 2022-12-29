@@ -1,22 +1,22 @@
 const Subscription = {
-  comment: {
-    subscribe(parent, { postId }, { db, pubsub }, info) {
-      const post = db.posts.find(
-        (post) => post.id === postId && post.published,
-      );
-
-      if (!post) {
-        throw new Error('Post not found');
-      }
-
-      return pubsub.asyncIterator(`comment ${postId}`);
+  eventHappened: {
+    subscribe: (parent, args, {pubSub}) => {
+    return pubSub.subscribe('EVENTHAPPENED');
     },
   },
-  post: {
-    subscribe(parent, args, { pubsub }, info) {
-      return pubsub.asyncIterator('post');
+
+  playerUpdate: {
+    subscribe: (parent, args, {pubSub}) => {
+      return pubSub.subscribe('PLAYER_UPDATE');
     },
   },
+  // TODO 6.2 Define the itemDeleted subscription resolver
+  playerReaction: {
+    subscribe: (parent, args, {pubSub}) => {
+      return pubSub.subscribe('PLAYER_REACTION');
+    },
+  },
+  // TODO 6.2 End
 };
 
-export { Subscription as default };
+export default Subscription;

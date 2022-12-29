@@ -1,14 +1,10 @@
 import { gql } from '@apollo/client';
 
-const CREATE_CHATBOX_MUTATION = gql`
-  mutation createChatBox($name1: String!, $name2: String!) {
-    createChatBox(name1: $name1, name2: $name2) {
+const CREATE_PLAYER_MUTATION = gql`
+  mutation createChatBox($name: String!) {
+    createPlayer(name: $name) {
+      _id
       name
-      messages {
-        sender
-        to
-        body
-      }
     }
   }
 `;
@@ -24,4 +20,4 @@ const CREATE_MESSAGE_MUTATION = gql`
 `;
 
 
-export {CREATE_CHATBOX_MUTATION, CREATE_MESSAGE_MUTATION};
+export {CREATE_PLAYER_MUTATION, CREATE_MESSAGE_MUTATION};

@@ -7,7 +7,7 @@
     "graphql-ws": "^5.11.2"
   },
   "scripts": {
-    "server": "cd backend && yarn start",
+    "server": "cd backend && yarn server",
     "start": "cd frontend && yarn start",
     "install_all": "cd frontend && yarn install --freeze-lockfile && cd ../backend && yarn install --freeze-lockfile",
     "build": "cd frontend && yarn build",
