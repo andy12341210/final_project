@@ -50,14 +50,25 @@ const Fire_img = styled.img`
     width:20vw;
     z-index:4;
 `
+const Chain_img = styled.img`
+    position : absolute;
+    height:40vh;
+    width:16vw;
+    z-index:4;
+    top:32Vh;
+    left:67vw;
+`
+
+const buttonStyle = {width:"10vw",height:"10vh",zIndex:"4",top:"0vh",fontSize:"1.5vw",top:"40vh",left:"25vw"}
 
 const ChooseCharacter = ()=>{
 
-    const {Mode,setMode,isSelected,setIsCharacterChoosed,playerCharacters,setPlayerCharacters} = useMonopoly()
+    const {Mode,setMode,setIsSelected,setIsCharacterChoosed,playerCharacters,setPlayerCharacters} = useMonopoly()
     const background_img = require("../picture/choose_character/background.png");
     const frame_img = require("../picture/choose_character/frame.png")
     const intro_img = require("../picture/choose_character/white.png")
     const fire_img = require("../picture/choose_character/fire/fire.gif")
+    const chain_img = require("../picture/choose_character/chain.png")
     const id_list = [0,1,2,3,4,5,6]
     const frame_list = ["c0","c1","c2","c3","c4","c5","c6"]
     const c0 = require("../picture/character/c0.png")
@@ -74,6 +85,9 @@ const ChooseCharacter = ()=>{
         setIsCharacterChoosed(true);
         setPlayerCharacters(temp);
     }
+    const cancel = ()=>{
+        setIsSelected(false);
+    }
 
     return (
         <div>
@@ -82,15 +96,17 @@ const ChooseCharacter = ()=>{
                 return <>
                     <FrameWrapper id={frame_list[id]}>
                         <Frame_img src={frame_img} alt="frame" />
-                        <Fire_img src={fire_img} alt="fire" id={"f"+id} onClick={e=>selecting(id)}/>
-                        <Charcter_img src={Charcter_img_list[id]} alt={id} key={id}/>
-                        <IntroWrapper id={"i"+id}>
-                            <IntroBackground src={intro_img} alt="intro" />
-                            <Introduction n={id}/>
+                        <Fire_img src={fire_img} alt="fire" id={"f"+id} onClick={e=>selecting(id)} className={Mode!==1?id===6?"disable":"":""}/>
+                        <Charcter_img src={Charcter_img_list[id]} alt={id} key={id} className={Mode!==1?id===6?"disable":"":""}/>
+                        <IntroWrapper id={"i"+id} >
+                            <IntroBackground src={intro_img} alt="intro" className={Mode!==1?id===6?"disable":"":""}/>
+                            <Introduction n={id} Mode={Mode}/>
                         </IntroWrapper>
                     </FrameWrapper>
                 </>
             })}
+            <Chain_img src={chain_img} alt="chain" className={Mode===1?"disable":""}/>
+            <Button type='primary' danger={true} style={buttonStyle} onClick={cancel}>上一頁</Button>
         </div>
     );
 }

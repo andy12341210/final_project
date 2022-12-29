@@ -24,8 +24,9 @@ function App() {
     <Wrapper>
       {!isStarted ?<Home/>:
         !isSelected?<SelectMode/>:
-          !isCharacterChoosed?<ChooseCharacter/>:
-          <Preparing/>
+          isCharacterChoosed?<Preparing/>:
+            <ChooseCharacter/>
+          
       }
     </Wrapper>
   )

@@ -13,10 +13,10 @@ const Introword = styled.p`
     left:5vh;
 `
 
-const Introduction = ({n})=>{
+const Introduction = ({Mode,n})=>{
     const text_list = [intro1,intro2,intro3,intro4,intro5,intro6,intro7]
 
-    return <Introword>{text_list[n]}</Introword>
+    return <Introword className={Mode!==1?n===6?"disable":"":""}>{text_list[n]}</Introword>
 }
 
 export default Introduction

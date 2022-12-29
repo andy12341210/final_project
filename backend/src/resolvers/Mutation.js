@@ -10,14 +10,16 @@ const findEmptyRoom = async()=>{
 
 const Mutation = {
   joinRoom: async(parent, { _id, name }, { pubsub }) => {
-    const Room = await findEmptyRoom();
+    let Room = await findEmptyRoom();
     const newPlayer = {_id,name,isPrepared:false,money:0,position:0}
     Room.players.push(newPlayer);
+    Room.playerAmount += 1;
+    if(Room.playerAmount === 4)Room.isFull=true;
     await Room.save();
-    pubsub.publish(`PLAYER_UPDATE`
-      ,{
-        newplayer:newPlayer,
-    });
+    // pubsub.publish(`PLAYER_UPDATE`
+    //   ,{
+    //     newplayer:newPlayer,
+    // });
     return Room;
   },
 

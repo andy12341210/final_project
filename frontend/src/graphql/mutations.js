@@ -9,15 +9,20 @@ const CREATE_PLAYER_MUTATION = gql`
   }
 `;
 
-const CREATE_MESSAGE_MUTATION = gql`
-  mutation createMessage($name: String!, $to: String!, $body: String!) {
-    createMessage(name: $name, to: $to, body: $body) {
-      sender
-      to
-      body
+const JOIN_ROOM_MUTATION = gql`
+  mutation joinRoom($name: String!,$_id: ID! ) {
+    joinRoom( name: $name, _id: $_id) {
+      _id
+      players {
+        _id
+        name
+        isPrepared
+        money
+        position
+      }
     }
   }
 `;
 
 
-export {CREATE_PLAYER_MUTATION, CREATE_MESSAGE_MUTATION};
+export {CREATE_PLAYER_MUTATION, JOIN_ROOM_MUTATION};

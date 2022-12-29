@@ -32,11 +32,31 @@ const SelectWord = styled.p`
 
 const SelectMode = ()=>{
 
-    const {Mode,setMode,isSelected,setIsSelected} = useMonopoly()
+    const {Mode,setMode,isSelected,setIsSelected,setIsCharacterChoosed,playerCharacters,setPlayerCharacters,
+        myPlayerPos,joinRoom,myPlayerId,myName,setRoomId} = useMonopoly()
     const home_screen_img = require("../picture/home_screen/204.png");
 
-    const selecting = ()=>{
+    const selectingCommon = async()=>{
         setIsSelected(true);
+        setIsCharacterChoosed(true);
+        let temp = playerCharacters;
+        temp[myPlayerPos] = 0;
+        setPlayerCharacters(temp);
+        const {data} = await joinRoom({variables:{_id:myPlayerId,name:myName}})
+        setRoomId(data.joinRoom._id);
+    }
+
+    const selecting0 = ()=>{
+        selectingCommon();
+        setMode(0);
+    }
+    const selecting1 = ()=>{
+        selectingCommon();
+        setMode(1);
+    }
+    const selecting2 = ()=>{
+        selectingCommon();
+        setMode(2);
     }
 
     return (
@@ -44,9 +64,9 @@ const SelectMode = ()=>{
             <Background_img src={home_screen_img} alt="background" id="home_img"/>
             <SelectWord>請選擇模式</SelectWord>
             <ButtonsWrapper>
-                <Button type='primary' size='large' onClick={selecting}>多人模式</Button>
-                <Button type='primary' size='large' onClick={selecting}>人機對戰</Button>
-                <Button type='primary' size='large' onClick={selecting}>創建房間</Button>
+                <Button type='primary' size='large' onClick={selecting0}>多人模式</Button>
+                <Button type='primary' size='large' onClick={selecting1}>人機對戰</Button>
+                <Button type='primary' size='large' onClick={selecting2}>創建房間</Button>
             </ButtonsWrapper>
         </div>
     );

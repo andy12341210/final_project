@@ -1,8 +1,9 @@
 type Query {
-    Room(name: String!): Room!
+    Room(_id: ID!): Room!
 }
 
 type Room {
+    _id:ID!
     isFull: Boolean
     playerAmount: Int
     currentDice: Int
@@ -35,7 +36,7 @@ type NewPlayer {
 }
 
 type Mutation {
-    joinRoom(_id:ID!,name:String!): Room!
+    joinRoom(_id:ID!,name:String!): Room
     createPlayer( name:String!): NewPlayer!
 }
 
