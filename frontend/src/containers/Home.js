@@ -20,7 +20,7 @@ const HomeImg = styled.img`
 `
 
 const Home = () => {
-    const {isStarted,setIsStarted,playerNames,setPlayerNames,playerIds,setPlayerIds,createPlayer,setMyPlayerId,
+    const {isStarted,setIsStarted,Players,createPlayer,setMyPlayerId,
         setMyName,} = useMonopoly();
     const [isModalOpen,setIsModalOpen] = useState(false);
     const home_screen_img = require("../picture/home_screen/home_screen.png")
@@ -41,16 +41,11 @@ const Home = () => {
     })
     
     const startGame = async(name)=>{
-        let temp = playerNames;
-        temp[0] = name;
-        setPlayerNames(temp);
         setMyName(name);
-        let temp2 = playerIds;
         const {data} = await createPlayer({variables:{name:name}});
+        console.log(data.createPlayer)
         let _id = data.createPlayer._id
-        temp2[0] = _id;
         setMyPlayerId(_id)
-        setPlayerIds(temp2);
         setIsStarted(true);
         clearInterval(animationInterval);
     }

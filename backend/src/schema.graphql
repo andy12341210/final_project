@@ -1,10 +1,11 @@
 type Query {
-    Room(_id: ID!): Room!
+    Room(_id: ID!): Room
 }
 
 type Room {
     _id:ID!
     isFull: Boolean
+    isStarted: Boolean
     playerAmount: Int
     currentDice: Int
     currentPlayer: Int
@@ -15,8 +16,18 @@ type Player {
     _id: String!
     name: String!
     isPrepared: Boolean!
+    character: Int!
     money : Int!
     position: Int!
+}
+
+input PlayersInput {
+    _id: String
+    name: String
+    isPrepared: Boolean
+    character: Int
+    money : Int
+    position: Int
 }
 
 type EventMessage {
@@ -36,12 +47,15 @@ type NewPlayer {
 }
 
 type Mutation {
-    joinRoom(_id:ID!,name:String!): Room
+    joinRoom( _id: ID!, name: String! ): Room
+    leaveRoom( _id: ID!, pos: Int! ): Room
     createPlayer( name:String!): NewPlayer!
+    upDatePlayers( players: [PlayersInput], _id: ID ): Room
 }
 
 type Subscription {
     eventHappened: EventMessage!
-    playerUpdate: Player!
+    playerUpdate( _id:ID! ): [Player]
     playerReaction: ReactionMessage!
+    roomStateUpdate( _id:ID! ): Room
 }

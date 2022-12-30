@@ -59,11 +59,11 @@ const Chain_img = styled.img`
     left:67vw;
 `
 
-const buttonStyle = {width:"10vw",height:"10vh",zIndex:"4",top:"0vh",fontSize:"1.5vw",top:"40vh",left:"25vw"}
 
 const ChooseCharacter = ()=>{
 
-    const {Mode,setMode,setIsSelected,setIsCharacterChoosed,playerCharacters,setPlayerCharacters} = useMonopoly()
+    const {Mode,setMode,setIsSelected,setIsCharacterChoosed,Players,setPlayers,myPlayerPos,currentPlayers,
+        upDatePlayers,roomId} = useMonopoly()
     const background_img = require("../picture/choose_character/background.png");
     const frame_img = require("../picture/choose_character/frame.png")
     const intro_img = require("../picture/choose_character/white.png")
@@ -80,14 +80,12 @@ const ChooseCharacter = ()=>{
     const c6 = require("../picture/character/c6.png")
     const Charcter_img_list = [c0,c1,c2,c3,c4,c5,c6]
     const selecting = (key)=>{
-        let temp = playerCharacters;
-        temp[0] = key
+        let temp = currentPlayers;
+        temp[myPlayerPos].character = key
+        upDatePlayers(temp,roomId);
         setIsCharacterChoosed(true);
-        setPlayerCharacters(temp);
     }
-    const cancel = ()=>{
-        setIsSelected(false);
-    }
+    
 
     return (
         <div>
@@ -106,7 +104,7 @@ const ChooseCharacter = ()=>{
                 </>
             })}
             <Chain_img src={chain_img} alt="chain" className={Mode===1?"disable":""}/>
-            <Button type='primary' danger={true} style={buttonStyle} onClick={cancel}>上一頁</Button>
+            
         </div>
     );
 }

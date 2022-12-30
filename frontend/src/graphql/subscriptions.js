@@ -1,11 +1,28 @@
 import { gql } from '@apollo/client';
 
-export const MESSAGE_SUBSCRIPTION = gql`
-  subscription message($from:String!, $to:String!){
-    message(from:$from, to:$to) {
-      sender
-      to
-      body
+const PLAYER_UPDATE_SUBSCRIPTION = gql`
+  subscription playerUpdate($_id:ID!){
+    playerUpdate(_id:$_id) {
+      _id
+      name
+      isPrepared
+      character
+      money
+      position
     }
   }
 `;
+
+const ROOM_UPDATE_SUBSCRIPTION = gql`
+subscription roomStateUpdate($_id:ID!){
+  roomStateUpdate(_id:$_id) {
+    isFull
+    isStarted
+    playerAmount
+    currentDice
+    currentPlayer
+  }
+}
+`
+
+export {PLAYER_UPDATE_SUBSCRIPTION,ROOM_UPDATE_SUBSCRIPTION}

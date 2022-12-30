@@ -32,18 +32,16 @@ const SelectWord = styled.p`
 
 const SelectMode = ()=>{
 
-    const {Mode,setMode,isSelected,setIsSelected,setIsCharacterChoosed,playerCharacters,setPlayerCharacters,
-        myPlayerPos,joinRoom,myPlayerId,myName,setRoomId} = useMonopoly()
+    const {Mode,setMode,isSelected,setIsSelected,setIsCharacterChoosed,Players,setPlayers,
+        myPlayerPos,joinRoom,myPlayerId,myName,roomId,setRoomId,upDatePlayers} = useMonopoly()
     const home_screen_img = require("../picture/home_screen/204.png");
 
     const selectingCommon = async()=>{
         setIsSelected(true);
         setIsCharacterChoosed(true);
-        let temp = playerCharacters;
-        temp[myPlayerPos] = 0;
-        setPlayerCharacters(temp);
         const {data} = await joinRoom({variables:{_id:myPlayerId,name:myName}})
         setRoomId(data.joinRoom._id);
+        upDatePlayers(data.joinRoom.players,data.joinRoom._id);
     }
 
     const selecting0 = ()=>{

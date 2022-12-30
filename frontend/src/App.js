@@ -5,6 +5,7 @@ import Home from './containers/Home'
 import SelectMode from './containers/SelectMode'
 import ChooseCharacter from './containers/ChooseCharacter'
 import Preparing from './containers/Preparing'
+import Map from './containers/Map'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -18,14 +19,16 @@ const Wrapper = styled.div`
 `
 
 function App() {
-  const { isStarted,isSelected,isCharacterChoosed} = useMonopoly()
+  const { isStarted,isSelected,isCharacterChoosed,roomState} = useMonopoly()
 
   return (
     <Wrapper>
       {!isStarted ?<Home/>:
         !isSelected?<SelectMode/>:
-          isCharacterChoosed?<Preparing/>:
-            <ChooseCharacter/>
+          isCharacterChoosed?
+            !roomState.isStarted?<Preparing/>:
+            <Map/>:
+          <ChooseCharacter/>
           
       }
     </Wrapper>
