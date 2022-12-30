@@ -23,8 +23,8 @@ const RoomTemplate = { isFull:false,playerAmount:0,isStarted:true,currentPlayer:
 
 const MonopolyProvider = (props) => {
 
-    const [isStarted,setIsStarted] = useState(false)
-    const [isSelected,setIsSelected] = useState(false)
+    const [isStarted,setIsStarted] = useState(true)
+    const [isSelected,setIsSelected] = useState(true)
     const [isCharacterChoosed,setIsCharacterChoosed] = useState(true)
     const [roomState,setRoomState] = useState(RoomTemplate)
     const [isPrepared,setIsPrepared] = useState(false)
