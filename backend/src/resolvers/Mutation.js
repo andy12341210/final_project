@@ -24,7 +24,7 @@ const checkPrepared = (Room)=>{
 const Mutation = {
   joinRoom: async(parent, { _id, name }, { pubsub }) => {
     let Room = await findEmptyRoom();
-    const newPlayer = {_id,name,isPrepared:false,character:0,money:0,position:0}
+    const newPlayer = {_id,name,isPrepared:false,character:0,money:2000,position:0}
     Room.players.push(newPlayer);
     Room.playerAmount += 1;
     if(Room.playerAmount === 4)Room.isFull=true;

@@ -9,6 +9,7 @@ const MonopolyContext = createContext({
     isSelected: false,
     isCharacterChoosed: false,
     roomState: {},
+    isMe:false,
     isPrepared: false,
     Players:[],
     currentPlayers:[],
@@ -18,7 +19,7 @@ const MonopolyContext = createContext({
     roomId:"",
     Mode: 0
 });
-const template = {_id:"",name:"等待新玩家...",isPrepared:false,character:7,money:0,position:0}
+const template = {_id:"",name:"等待新玩家...",isPrepared:false,character:2,money:2000,position:0}
 const RoomTemplate = { isFull:false,playerAmount:0,isStarted:true,currentPlayer:0,currentDice:1}
 
 const MonopolyProvider = (props) => {
@@ -27,6 +28,7 @@ const MonopolyProvider = (props) => {
     const [isSelected,setIsSelected] = useState(true)
     const [isCharacterChoosed,setIsCharacterChoosed] = useState(true)
     const [roomState,setRoomState] = useState(RoomTemplate)
+    const [isMe,setIsMe] = useState(true)
     const [isPrepared,setIsPrepared] = useState(false)
     const [Players,setPlayers] = useState([template,template,template,template])
     const [currentPlayers,setCurrentPlayers] = useState([])
@@ -102,9 +104,12 @@ const MonopolyProvider = (props) => {
             variables:{_id:roomId},
             updateQuery: (prev, { subscriptionData }) => {
                 if (!subscriptionData.data) return;
-                const data = subscriptionData.data;
-                console.log(data);
+                const data = subscriptionData.data.roomStateUpdate;
                 if(!data)return
+                console.log(data)
+                setRoomState(data)
+                if(data.currentPlayer === myPlayerPos)setIsMe(true)
+                else setIsMe(false)
             },
             });
         },
@@ -116,7 +121,7 @@ const MonopolyProvider = (props) => {
             value={{isStarted,setIsStarted,Mode,setMode,isSelected,setIsSelected,isCharacterChoosed,setIsCharacterChoosed,
                 isPrepared,setIsPrepared,createPlayer,myPlayerPos,setMyPlayerPos,joinRoom,myPlayerId,setMyPlayerId,
                 myName,setMyName,roomId,setRoomId,Players,setPlayers,upDatePlayers,upDatePlayersToDB,currentPlayers,setCurrentPlayers,
-                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,
+                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,
             }}
             {...props}
         />

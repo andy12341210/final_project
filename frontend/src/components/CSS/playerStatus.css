@@ -1,0 +1,27 @@
+#b0 {
+    position: absolute;
+    top: 3vh;
+}
+
+#b1 {
+    position: absolute;
+    top: 28vh;
+}
+
+#b2 {
+    position: absolute;
+    top: 52vh;
+}
+
+#b3 {
+    position: absolute;
+    top: 76vh;
+}
+
+.isPlaying {
+    border: 1vh solid #00FF00;
+}
+
+.notPlaying {
+    border: 1vh solid white;
+}

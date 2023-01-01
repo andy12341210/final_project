@@ -94,7 +94,7 @@ const Preparing = ()=>{
                     <Button  size='large' onClick={prepareTrigger} style={BtnStyle2}>已準備</Button>
                 }
             </ButtonWrapper>
-            <Button type='primary' danger={true} style={buttonStyle} onClick={cancel}>上一頁</Button>
+            <Button type='primary' danger={true} style={buttonStyle} onClick={cancel}>退出房間</Button>
         </div>
     );
 }
