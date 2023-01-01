@@ -11,6 +11,7 @@ const MonopolyContext = createContext({
     roomState: {},
     isMe:false,
     isPrepared: false,
+    playState:[],
     Players:[],
     currentPlayers:[],
     myPlayerPos: 0,
@@ -30,6 +31,7 @@ const MonopolyProvider = (props) => {
     const [roomState,setRoomState] = useState(RoomTemplate)
     const [isMe,setIsMe] = useState(true)
     const [isPrepared,setIsPrepared] = useState(false)
+    const [playState,setPlayState] = useState({onGoing:false,Onend:false})
     const [Players,setPlayers] = useState([template,template,template,template])
     const [currentPlayers,setCurrentPlayers] = useState([])
     const [myPlayerPos,setMyPlayerPos] = useState(0)
@@ -121,7 +123,7 @@ const MonopolyProvider = (props) => {
             value={{isStarted,setIsStarted,Mode,setMode,isSelected,setIsSelected,isCharacterChoosed,setIsCharacterChoosed,
                 isPrepared,setIsPrepared,createPlayer,myPlayerPos,setMyPlayerPos,joinRoom,myPlayerId,setMyPlayerId,
                 myName,setMyName,roomId,setRoomId,Players,setPlayers,upDatePlayers,upDatePlayersToDB,currentPlayers,setCurrentPlayers,
-                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,
+                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,playState,setPlayState,
             }}
             {...props}
         />

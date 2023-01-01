@@ -12,13 +12,11 @@ const Camera = styled.div`
     overflow: hidden;
     border:1px solid black;
 `
-
 const Map_Img = styled.img`
     position:relative;
     height : 200vh;
     width : 135vw;
 `
-
 const Icon_img = styled.img`
     position:absolute;
     z-index:3;
