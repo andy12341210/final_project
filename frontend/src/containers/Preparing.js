@@ -65,7 +65,7 @@ const Preparing = ()=>{
 
     const prepareTrigger = ()=>{
         setIsPrepared(!isPrepared);
-        let temp = currentPlayers;
+        let temp = currentPlayers.slice();
         temp[myPlayerPos].isPrepared = !isPrepared;
         upDatePlayers(temp,roomId);
     }

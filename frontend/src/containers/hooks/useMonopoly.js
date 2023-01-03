@@ -21,7 +21,11 @@ const MonopolyContext = createContext({
     Mode: 0,
     mapStatus:[],
 });
-const template = {_id:"",name:"等待新玩家...",isPrepared:false,character:2,money:2000,position:0}
+const template0 = {_id:"",name:"等待新玩家...",isPrepared:false,character:3,money:2000,position:0}
+const template1 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0}
+const template2 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0}
+const template3 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0}
+const template = [template0,template1,template2,template3];
 const RoomTemplate = { isFull:false,playerAmount:0,isStarted:true,currentPlayer:0,currentDice:1}
 
 const MonopolyProvider = (props) => {
@@ -32,7 +36,7 @@ const MonopolyProvider = (props) => {
     const [roomState,setRoomState] = useState(RoomTemplate)
     const [isMe,setIsMe] = useState(true)
     const [isPrepared,setIsPrepared] = useState(false)
-    const [Players,setPlayers] = useState([template,template,template,template])
+    const [Players,setPlayers] = useState(template)
     const [currentPlayers,setCurrentPlayers] = useState([])
     const [myPlayerPos,setMyPlayerPos] = useState(0)
     const [myPlayerId,setMyPlayerId] = useState("")
@@ -59,7 +63,7 @@ const MonopolyProvider = (props) => {
                 }
             }
             else{
-                temp[i] = template;
+                temp[i] = template[i];
             }
         }
         setPlayers(temp)

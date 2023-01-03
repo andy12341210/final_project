@@ -68,4 +68,14 @@ const event8 = require("../picture/event/e8.png")
 
 const event_imgs = [event0,event1,event2,event3,event4,event5,event6,event7,event8]
 
-export {Place,dice_imgs,ability_imgs,event_imgs}
+const c0 = require("../picture/character/c0.png")
+const c1 = require("../picture/character/c1.png")
+const c2 = require("../picture/character/c2.png")
+const c3 = require("../picture/character/c3.png")
+const c4 = require("../picture/character/c4.png")
+const c5 = require("../picture/character/c5.png")
+const c6 = require("../picture/character/c6.png")
+const c7 = require("../picture/character/c7.png")
+const Charcter_img_list = [c0,c1,c2,c3,c4,c5,c6,c7]
+
+export {Place,dice_imgs,ability_imgs,event_imgs,Charcter_img_list}

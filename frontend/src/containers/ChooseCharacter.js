@@ -80,7 +80,7 @@ const ChooseCharacter = ()=>{
     const c6 = require("../picture/character/c6.png")
     const Charcter_img_list = [c0,c1,c2,c3,c4,c5,c6]
     const selecting = (key)=>{
-        let temp = currentPlayers;
+        let temp = currentPlayers.slice();
         temp[myPlayerPos].character = key
         upDatePlayers(temp,roomId);
         setIsCharacterChoosed(true);

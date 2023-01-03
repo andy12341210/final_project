@@ -63,19 +63,23 @@ const Dice = ({moving})=>{
     }
 
     const moving_ani = async(move,temp)=>{
+        let isBack = (Players[myPlayerPos].character === 1)&&(gernRandom(3)===0)
+        let temparr = temp;
+        if(isBack) AbilityModal(1);
         for(let i=0; i<move; i++){
             if(Players[myPlayerPos].character === 2){
-                if(gernRandom(6)===0) {
-                    let a = AbilityModal(2)
-                    console.log(a)
+                if(gernRandom(5)===0) {
+                    AbilityModal(2)
                     break;
                 }
             }
-            let pos = temp[myPlayerPos].position
+            let pos = temparr[myPlayerPos].position
             let [orit,oril] = [coordinate[pos][0],coordinate[pos][1]]
-            temp[myPlayerPos].position += 1;
-            if(temp[myPlayerPos].position>27)temp[myPlayerPos].position -= 28
-            pos = temp[myPlayerPos].position
+            temparr[roomState.currentPlayer].position += 1;
+            if(isBack)temparr[myPlayerPos].position -= 2;
+            if(temparr[myPlayerPos].position>27)temparr[myPlayerPos].position -= 28
+            if(temparr[myPlayerPos].position<0)temparr[myPlayerPos].position += 28
+            pos = temparr[myPlayerPos].position
             const [newt,newl] = [coordinate[pos][0],coordinate[pos][1]]
             const [movet,movel] = [(newt-orit)/20,(newl-oril)/20]
             for(let j=0; j<20; j++){
@@ -89,13 +93,11 @@ const Dice = ({moving})=>{
             const context = `${mapName[pos]}<br/>擁有者：${mapStatus[pos][0]===-1?"":Players[mapStatus[pos][0]].name}<br/>等級：${mapStatus[pos][0]===-1?"":mapStatus[pos][1]}`
             placeContent.innerHTML = context;
         }
-        return temp
+        return temparr
     }
 
     const modifyMoney = (pos,amount)=>{
-        let temp = Players;
-        console.log(temp[pos])
-        console.log(Players[pos])
+        let temp = Players.slice();
         temp[pos].money += amount
         setPlayers(temp)
     }
@@ -135,8 +137,15 @@ const Dice = ({moving})=>{
         await sleep(500);
         const move = Dice_number[Players[myPlayerPos].character][gernRandom(6)]
         if(dice)dice.src = dice_imgs[move]
-        let temp = Players
+        let temp = Players.slice()
         temp = await moving_ani(move,temp)
+
+        for(let i=0; i<4; i++){
+            if(Players[roomState.currentPlayer].character === 3){
+                if(i !== roomState.currentPlayer && Players[i].position === temp[roomState.currentPlayer].position){
+                    AbilityModal(3);
+            }} 
+        }
         
         // await upDatePlayers(temp,roomId);
 
@@ -151,7 +160,9 @@ const Dice = ({moving})=>{
         const pos = temp[roomState.currentPlayer].position
         const event = mapType[pos];
         let tempm = mapStatus[pos]
-        console.log(event)
+        if(Players[roomState.currentPlayer].character === 5){
+            playEvent(2,pos)
+        }
         playEvent(event,pos)
         
     }
