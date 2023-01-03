@@ -1,6 +1,7 @@
 import { useMonopoly } from "../containers/hooks/useMonopoly";
 import styled from "styled-components";
 import "./CSS/playerStatus.css"
+import { useEffect } from "react";
 
 const PlayerStatusWrapper = styled.div`
     position:absolute;
@@ -55,6 +56,10 @@ const PlayerStatus = ()=>{
     const c6 = require("../picture/character/c6.png")
     const c7 = require("../picture/character/c7.png")
     const Charcter_img_list = [c0,c1,c2,c3,c4,c5,c6,c7]
+    
+    useEffect(()=>{
+        console.log("000")
+    },[Players])
 
     return <>
         {

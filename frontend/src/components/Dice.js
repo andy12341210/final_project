@@ -1,9 +1,11 @@
 import { useMonopoly } from "../containers/hooks/useMonopoly";
 import styled from "styled-components";
 import Dice_number from "./text/dice";
-import {coordinate} from "./text/map";
-import Place from "./Place";
+import {coordinate, mapType} from "./text/map";
+import {Place,dice_imgs} from "./PictureIndex";
 import { mapName } from "./text/map";
+import { gernRandom,sleep } from "./Functions";
+import { BuyModal,EventModal,upGradeModal,AbilityModal } from "./Modals";
 
 const DiceBox = styled.div`
     position:absolute;
@@ -46,50 +48,28 @@ const PlaceContent = styled.p`
 
 const Dice = ({moving})=>{
     const diceFrame_img = require("../picture/dice/dice_background.png")
-    const dice0 = require("../picture/dice/0.png")
-    const dice1 = require("../picture/dice/1.png")
-    const dice2 = require("../picture/dice/2.png")
-    const dice3 = require("../picture/dice/3.png")
-    const dice4 = require("../picture/dice/4.png")
-    const dice5 = require("../picture/dice/5.png")
-    const dice6 = require("../picture/dice/6.png")
-    const dice7 = require("../picture/dice/7.png")
-    const dice8 = require("../picture/dice/8.png")
-    const dice9 = require("../picture/dice/9.png")
-    const dice10 = require("../picture/dice/10.png")
     const dice_ani = require("../picture/dice/dice_ani.gif")
-    const dice_imgs = [dice0,dice1,dice2,dice3,dice4,dice5,dice6,dice7,dice8,dice9,dice10]
-    const {Players,myPlayerPos,upDatePlayers,roomId,setPlayers,roomState,setRoomState,isMe,setIsMe} = useMonopoly()
+    const {Players,myPlayerPos,upDatePlayers,roomId,setPlayers,roomState,setRoomState,isMe,setIsMe,
+        mapStatus} = useMonopoly()
     const dice = document.getElementById("dice")
     const Photo = document.getElementById("photo")
     const placeContent = document.getElementById("placeContent")
     let isGoing = false;
-
-    async function sleep(ms) {
-        return new Promise(r => setTimeout(r, ms));
-    }
-
-    const gernerateDice = (type)=>{
-        const random = Math.floor(Math.random()*6)
-        return Dice_number[type][random]
-    }
+    let money_to_modify
 
     const display_ani = async()=>{
         if(!dice)return
         dice.src = dice_ani;
     }
 
-    const rolling = async()=>{
-        if(isGoing)return
-        isGoing = true;
-        display_ani()
-        await sleep(500);
-        const move = gernerateDice(Players[myPlayerPos].character)
-        if(dice)dice.src = dice_imgs[move]
-        let temp = Players
+    const moving_ani = async(move,temp)=>{
         for(let i=0; i<move; i++){
             if(Players[myPlayerPos].character === 2){
-                if(Math.floor(Math.random()*6)===0) break;
+                if(gernRandom(6)===0) {
+                    let a = AbilityModal(2)
+                    console.log(a)
+                    break;
+                }
             }
             let pos = temp[myPlayerPos].position
             let [orit,oril] = [coordinate[pos][0],coordinate[pos][1]]
@@ -106,8 +86,57 @@ const Dice = ({moving})=>{
             }
             moving(newt,newl);
             Photo.src = Place[pos];
-            placeContent.innerHTML = mapName[pos];
+            const context = `${mapName[pos]}<br/>擁有者：${mapStatus[pos][0]===-1?"":Players[mapStatus[pos][0]].name}<br/>等級：${mapStatus[pos][0]===-1?"":mapStatus[pos][1]}`
+            placeContent.innerHTML = context;
         }
+        return temp
+    }
+
+    const modifyMoney = (pos,amount)=>{
+        let temp = Players;
+        console.log(temp[pos])
+        console.log(Players[pos])
+        temp[pos].money += amount
+        setPlayers(temp)
+    }
+    
+    const Buying =(pos)=>{
+        modifyMoney(roomState.currentPlayer,-100)
+        mapStatus[pos][0] = roomState.currentPlayer;
+    }
+    
+    const upgrading =(pos)=>{
+        modifyMoney(roomState.currentPlayer,-100)
+        mapStatus[pos][1] += 1;
+    }
+
+    const playEvent =(event,pos)=>{
+        if(event === 1){
+            let isOwn;
+            if(mapStatus[pos][0] === -1)isOwn = 0;
+            else if(mapStatus[pos][0] === myPlayerPos)isOwn = 1;
+            else isOwn = 2;
+            if(isOwn === 0){
+                BuyModal(()=>Buying(pos))
+            }
+            if(isOwn === 1){
+                upGradeModal(()=>upgrading(pos))
+            }
+        }
+        else if(event === 2){
+            EventModal(gernRandom(8))
+        }
+    }
+
+    const rolling = async()=>{
+        if(isGoing)return
+        isGoing = true;
+        display_ani()
+        await sleep(500);
+        const move = Dice_number[Players[myPlayerPos].character][gernRandom(6)]
+        if(dice)dice.src = dice_imgs[move]
+        let temp = Players
+        temp = await moving_ani(move,temp)
         
         // await upDatePlayers(temp,roomId);
 
@@ -118,6 +147,13 @@ const Dice = ({moving})=>{
         tempR.currentDice = move
         setRoomState(tempR)
         isGoing = false
+
+        const pos = temp[roomState.currentPlayer].position
+        const event = mapType[pos];
+        let tempm = mapStatus[pos]
+        console.log(event)
+        playEvent(event,pos)
+        
     }
 
 
@@ -125,7 +161,7 @@ const Dice = ({moving})=>{
     return <>
         <PhotoWrapper>
             <PlacePhoto src={Place[Players[roomState.currentPlayer].position]} alt={Place[Players[roomState.currentPlayer].position]} id="photo"/>
-            <PlaceContent id="placeContent">{mapName[Players[roomState.currentPlayer].position]}</PlaceContent>
+            <PlaceContent id="placeContent">{mapName[Players[roomState.currentPlayer].position]}<br/>{"擁有者："}<br/>{"等級："}</PlaceContent>
         </PhotoWrapper>
         <DiceBox>
             <DiceFrame_img src={diceFrame_img}/>

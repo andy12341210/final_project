@@ -16,6 +16,8 @@ const Map_Img = styled.img`
     position:relative;
     height : 200vh;
     width : 135vw;
+    top:-60vh;
+    left:-68vh;
 `
 const Icon_img = styled.img`
     position:absolute;
@@ -42,13 +44,6 @@ const Map = ()=>{
         Map.style.top = t+"vh"
         Map.style.left = l+"vw"
     }
-
-    useEffect(()=>{
-        if(!Map)return
-        Map.style.top = "-60vh"
-        Map.style.left = "-68vw"
-    })
-
 
     return<>
         <Dice moving={moving}/>

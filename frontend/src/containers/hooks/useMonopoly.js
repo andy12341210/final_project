@@ -3,6 +3,7 @@ import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import { CREATE_PLAYER_MUTATION,JOIN_ROOM_MUTATION,UPDATE_PLAYERS_MUTATION,LEAVE_ROOM_MUTATION } from '../../graphql/mutations';
 import { ROOM_QUERIES } from '../../graphql/queries';
 import {PLAYER_UPDATE_SUBSCRIPTION,ROOM_UPDATE_SUBSCRIPTION} from "../../graphql/subscriptions"
+import { mapOwner } from '../../components/text/map';
 
 const MonopolyContext = createContext({
     isStarted : false,
@@ -11,14 +12,14 @@ const MonopolyContext = createContext({
     roomState: {},
     isMe:false,
     isPrepared: false,
-    playState:[],
     Players:[],
     currentPlayers:[],
     myPlayerPos: 0,
     myPlayerId:"",
     myName:"",
     roomId:"",
-    Mode: 0
+    Mode: 0,
+    mapStatus:[],
 });
 const template = {_id:"",name:"等待新玩家...",isPrepared:false,character:2,money:2000,position:0}
 const RoomTemplate = { isFull:false,playerAmount:0,isStarted:true,currentPlayer:0,currentDice:1}
@@ -31,7 +32,6 @@ const MonopolyProvider = (props) => {
     const [roomState,setRoomState] = useState(RoomTemplate)
     const [isMe,setIsMe] = useState(true)
     const [isPrepared,setIsPrepared] = useState(false)
-    const [playState,setPlayState] = useState({onGoing:false,Onend:false})
     const [Players,setPlayers] = useState([template,template,template,template])
     const [currentPlayers,setCurrentPlayers] = useState([])
     const [myPlayerPos,setMyPlayerPos] = useState(0)
@@ -39,6 +39,7 @@ const MonopolyProvider = (props) => {
     const [myName,setMyName] = useState("")
     const [roomId,setRoomId] = useState("63ae6a00462aad7ddca66d80")
     const [Mode,setMode] = useState(0)
+    const [mapStatus,setMapStatus] = useState(mapOwner)
 
     const [createPlayer] = useMutation(CREATE_PLAYER_MUTATION)
     const [joinRoom] = useMutation(JOIN_ROOM_MUTATION)
@@ -81,6 +82,7 @@ const MonopolyProvider = (props) => {
         }
         setPlayers(temp)
     }
+    
 
     useEffect(
         () => {
@@ -123,7 +125,8 @@ const MonopolyProvider = (props) => {
             value={{isStarted,setIsStarted,Mode,setMode,isSelected,setIsSelected,isCharacterChoosed,setIsCharacterChoosed,
                 isPrepared,setIsPrepared,createPlayer,myPlayerPos,setMyPlayerPos,joinRoom,myPlayerId,setMyPlayerId,
                 myName,setMyName,roomId,setRoomId,Players,setPlayers,upDatePlayers,upDatePlayersToDB,currentPlayers,setCurrentPlayers,
-                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,playState,setPlayState,
+                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,mapStatus,setMapStatus,
+                
             }}
             {...props}
         />
