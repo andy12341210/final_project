@@ -20,6 +20,7 @@ const JOIN_ROOM_MUTATION = gql`
         character
         money
         position
+        isStop
       }
     }
   }
@@ -49,6 +50,17 @@ const UPDATE_PLAYERS_MUTATION = gql`
     }
   }
 `
+const UPDATE_ROOM_MUTATION = gql`
+  mutation upDateRoomState($currentPlayer: Int ,$_id: ID! ) {
+    upDateRoomState( currentPlayer: $currentPlayer, _id: $_id) {
+      isFull
+      isStarted
+      playerAmount
+      currentDice
+      currentPlayer
+    }
+  }
+`
 
 
-export {CREATE_PLAYER_MUTATION, JOIN_ROOM_MUTATION,UPDATE_PLAYERS_MUTATION,LEAVE_ROOM_MUTATION};
+export {CREATE_PLAYER_MUTATION, JOIN_ROOM_MUTATION,UPDATE_PLAYERS_MUTATION,LEAVE_ROOM_MUTATION,UPDATE_ROOM_MUTATION};

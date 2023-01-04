@@ -62,7 +62,7 @@ const Chain_img = styled.img`
 
 const ChooseCharacter = ()=>{
 
-    const {Mode,setMode,setIsSelected,setIsCharacterChoosed,Players,setPlayers,myPlayerPos,currentPlayers,
+    const {Mode,setMode,setIsSelected,setIsCharacterChoosed,myPlayerPos,currentPlayers,
         upDatePlayers,roomId} = useMonopoly()
     const background_img = require("../picture/choose_character/background.png");
     const frame_img = require("../picture/choose_character/frame.png")

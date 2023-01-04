@@ -32,6 +32,7 @@ input PlayersInput {
     isStop: Int
 }
 
+
 type EventMessage {
     join: [Int!]
     message: String!
@@ -53,11 +54,10 @@ type Mutation {
     leaveRoom( _id: ID!, pos: Int! ): Room
     createPlayer( name:String!): NewPlayer!
     upDatePlayers( players: [PlayersInput], _id: ID ): Room
+    upDateRoomState( currentPlayer:Int , _id:ID ): Room
 }
 
 type Subscription {
-    eventHappened: EventMessage!
     playerUpdate( _id:ID! ): [Player]
-    playerReaction: ReactionMessage!
     roomStateUpdate( _id:ID! ): Room
 }

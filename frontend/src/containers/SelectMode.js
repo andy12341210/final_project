@@ -32,7 +32,7 @@ const SelectWord = styled.p`
 
 const SelectMode = ()=>{
 
-    const {Mode,setMode,isSelected,setIsSelected,setIsCharacterChoosed,Players,setPlayers,
+    const {Mode,setMode,isSelected,setIsSelected,setIsCharacterChoosed,
         myPlayerPos,joinRoom,myPlayerId,myName,roomId,setRoomId,upDatePlayers} = useMonopoly()
     const home_screen_img = require("../picture/home_screen/204.png");
 

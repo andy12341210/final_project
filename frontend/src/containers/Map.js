@@ -1,5 +1,5 @@
 import { useMonopoly } from "./hooks/useMonopoly"
-import coordinate from "../components/text/map"
+import {coordinate} from "../components/text/map"
 import styled from "styled-components"
 import Dice from "../components/Dice"
 import PlayerStatus from "../components/playerStatus"
@@ -41,9 +41,15 @@ const Map = ()=>{
     const Map = document.getElementById("map")
 
     const moving = (t,l)=>{
+        if(!Map)return
         Map.style.top = t+"vh"
         Map.style.left = l+"vw"
     }
+
+    useEffect(()=>{
+        moving(coordinate[Players[roomState.currentPlayer].position][0],
+            coordinate[Players[roomState.currentPlayer].position][1])
+    },[roomState])
 
     return<>
         <Dice moving={moving}/>

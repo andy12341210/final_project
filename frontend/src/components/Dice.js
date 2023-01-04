@@ -49,8 +49,8 @@ const PlaceContent = styled.p`
 const Dice = ({moving})=>{
     const diceFrame_img = require("../picture/dice/dice_background.png")
     const dice_ani = require("../picture/dice/dice_ani.gif")
-    const {Players,myPlayerPos,upDatePlayers,roomId,setPlayers,roomState,setRoomState,isMe,setIsMe,
-        mapStatus} = useMonopoly()
+    const {Players,myPlayerPos,upDatePlayers,roomId,roomState,setRoomState,isMe,setIsMe,
+        mapStatus,upDateRoom} = useMonopoly()
     const dice = document.getElementById("dice")
     const Photo = document.getElementById("photo")
     const placeContent = document.getElementById("placeContent")
@@ -90,17 +90,17 @@ const Dice = ({moving})=>{
                 await sleep(25)
             }
             moving(newt,newl);
-            Photo.src = Place[pos];
+            if(Photo)Photo.src = Place[pos];
             const context = `${mapName[pos]}<br/>擁有者：${mapStatus[pos][0]===-1?"":Players[mapStatus[pos][0]].name}<br/>等級：${mapStatus[pos][0]===-1?"":mapStatus[pos][1]}`
-            placeContent.innerHTML = context;
+            if(placeContent)placeContent.innerHTML = context;
         }
         return temparr
     }
 
-    const modifyMoney = (pos,amount)=>{
+    const modifyMoney = async(pos,amount)=>{
         let temp = Players.slice();
         temp[pos].money += amount
-        setPlayers(temp)
+        await upDatePlayers(temp,roomId)
     }
     
     const Buying =(pos)=>{
@@ -141,33 +141,35 @@ const Dice = ({moving})=>{
             else if(random === 3)modifyMoney(roomState.currentPlayer,-500)
             else if(random === 4)modifyMoney(roomState.currentPlayer,-300)
             else if(random === 5){
-                console.log(tempE[roomState.currentPlayer].isStop)
                 tempE[roomState.currentPlayer].isStop += 1
-                console.log(tempE[roomState.currentPlayer].isStop)
-                setPlayers(tempE)
+                await upDatePlayers(tempE,roomId)
                 if(tempE[roomState.currentPlayer].isStop>0)moving(coordinate[29][0],coordinate[29][1])
             }
             else if(random === 6){
-                console.log(tempE[roomState.currentPlayer].isStop)
                 tempE[roomState.currentPlayer].isStop -= 1
-                console.log(tempE[roomState.currentPlayer].isStop)
-                setPlayers(tempE)
+                await upDatePlayers(tempE,roomId)
             }
             else if(random === 7){
                 tempE = await moving_ani(5,tempE,true);
-                setPlayers(tempE)
+                await upDatePlayers(tempE,roomId)
             }
             else if(random === 8)modifyMoney(roomState.currentPlayer,-300)
         }
     }
 
     const rolling = async()=>{
+        if(!isMe){
+            return
+        }
         if(isGoing)return
         isGoing = true;
         let temp = Players.slice()
         if(Players[roomState.currentPlayer].isStop > 0){
             temp[roomState.currentPlayer].isStop -= 1;
-            setPlayers(temp)
+            await upDatePlayers(temp,roomId)
+            let nextPlayer = roomState.currentPlayer+1
+            if(nextPlayer>3)nextPlayer-=4
+            await upDateRoom({variables:{currentPlayer:(nextPlayer),_id:roomId}})
             return
         }
         display_ani()
@@ -183,10 +185,7 @@ const Dice = ({moving})=>{
             }} 
         }
         
-        // await upDatePlayers(temp,roomId);
-
-        /** debug*/
-        setPlayers(temp)
+        await upDatePlayers(temp,roomId);
 
         let tempR = roomState
         tempR.currentDice = move
@@ -196,14 +195,15 @@ const Dice = ({moving})=>{
         const pos = temp[roomState.currentPlayer].position
         const event = mapType[pos];
         let tempm = mapStatus[pos]
-        console.log(Players[roomState.currentPlayer].isStop)
         if(Players[roomState.currentPlayer].character === 5){
             playEvent(2,pos)
         }
         playEvent(event,pos)
         
+        let nextPlayer = roomState.currentPlayer+1
+        if(nextPlayer>3)nextPlayer-=4
+        await upDateRoom({variables:{currentPlayer:(nextPlayer),_id:roomId}})
     }
-
 
 
     return <>
@@ -213,7 +213,7 @@ const Dice = ({moving})=>{
         </PhotoWrapper>
         <DiceBox>
             <DiceFrame_img src={diceFrame_img}/>
-            <Dice_img src={dice_imgs[roomState.currentDice]} onClick={isMe?rolling:()=>{}} id="dice"/>
+            <Dice_img src={dice_imgs[roomState.currentDice]} onClick={rolling} id="dice"/>
         </DiceBox>
     </>
 }

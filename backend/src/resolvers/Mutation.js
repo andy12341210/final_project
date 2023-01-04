@@ -75,7 +75,18 @@ const Mutation = {
     }
     return Room;
   },
-
+  upDateRoomState:async(parent, { currentPlayer,_id }, { pubSub }) => {
+    let Room = await RoomModel.findById(_id);
+    Room.currentPlayer = currentPlayer;
+    await Room.save();
+    pubSub.publish(`ROOM_UPDATE ${_id}`
+      ,{
+        roomStateUpdate:Room,
+    });
+    return Room;
+  },
 };
+
+
 
 export { Mutation as default };

@@ -49,7 +49,7 @@ const BtnStyle2 = { background: "#00FF00", borderColor: "green",width:"10vw" ,he
 
 const Preparing = ()=>{
 
-    const {Mode,setMode,isPrepared,setIsPrepared,Players,setPlayers,currentPlayers,upDatePlayers,
+    const {Mode,setMode,isPrepared,setIsPrepared,Players,currentPlayers,upDatePlayers,
         myPlayerPos,setIsCharacterChoosed,roomId,setIsSelected,leaveRoom} = useMonopoly()
     const background_img = require("../picture/choose_character/background.png");
     const id_list = [0,1,2,3];
