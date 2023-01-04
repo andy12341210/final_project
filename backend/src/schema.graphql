@@ -56,9 +56,15 @@ type Mutation {
     createPlayer( name:String!): NewPlayer!
     upDatePlayers( players: [PlayersInput], _id: ID ): Room
     upDateRoomState( mapStatus:[[Int]], currentPlayer:Int , _id:ID ): Room
+    deleteRoom(_id:ID): Room
+}
+
+type endGameOutPut {
+    IsEnd: Boolean
 }
 
 type Subscription {
     playerUpdate( _id:ID! ): [Player]
     roomStateUpdate( _id:ID! ): Room
+    endGame(_id:ID!): endGameOutPut
 }

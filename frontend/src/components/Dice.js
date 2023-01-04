@@ -77,8 +77,9 @@ const Dice = ({moving})=>{
             let [orit,oril] = [coordinate[pos][0],coordinate[pos][1]]
             temparr[roomState.currentPlayer].position += 1;
             if(isBack)temparr[myPlayerPos].position -= 2;
-            if(temparr[myPlayerPos].position>27)temparr[myPlayerPos].position -= 28
-            if(temparr[myPlayerPos].position<0)temparr[myPlayerPos].position += 28
+            if(temparr[myPlayerPos].position === 29)temparr[myPlayerPos].position -= 8
+            else if(temparr[myPlayerPos].position>28)temparr[myPlayerPos].position -= 29
+            else if(temparr[myPlayerPos].position<0)temparr[myPlayerPos].position += 29
             if(temparr[myPlayerPos].position === 0)temparr[myPlayerPos].money += 1000
             pos = temparr[myPlayerPos].position
             const [newt,newl] = [coordinate[pos][0],coordinate[pos][1]]
@@ -150,8 +151,11 @@ const Dice = ({moving})=>{
             else if(random === 4)modifyMoney(roomState.currentPlayer,-300)
             else if(random === 5){
                 tempE[roomState.currentPlayer].isStop += 1
+                if(tempE[roomState.currentPlayer].isStop>0){
+                    moving(coordinate[29][0],coordinate[29][1])
+                    tempE[roomState.currentPlayer].position = 29
+                }
                 await upDatePlayers(tempE,roomId)
-                if(tempE[roomState.currentPlayer].isStop>0)moving(coordinate[29][0],coordinate[29][1])
             }
             else if(random === 6){
                 tempE[roomState.currentPlayer].isStop -= 1
@@ -200,16 +204,16 @@ const Dice = ({moving})=>{
         let tempR = roomState
         tempR.currentDice = move
         setRoomState(tempR)
-        isGoing = false
 
         const pos = temp[roomState.currentPlayer].position
         const event = mapType[pos];
-        let tempm = roomState.mapStatus[pos]
+
         if(Players[roomState.currentPlayer].character === 5){
             playEvent(2,pos)
         }
+
         playEvent(event,pos)
-        
+        isGoing = false
         
     }
 

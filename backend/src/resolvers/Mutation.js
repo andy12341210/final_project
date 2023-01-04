@@ -61,6 +61,7 @@ const Mutation = {
   upDatePlayers:async(parent, { players, _id }, { pubSub }) => {
     await RoomModel.updateOne({_id:_id},{$set:{players:players}})
     let Room = await RoomModel.findById(_id);
+    if(!Room)return
     const player = players[0];
     pubSub.publish(`PLAYER_UPDATE ${_id}`
       ,{
@@ -87,6 +88,19 @@ const Mutation = {
     });
     return Room;
   },
+  deleteRoom:async(parent, { _id }, { pubSub }) =>{
+    let Room = await RoomModel.findById(_id)
+    for(let i = 0; i<4 ;i++){
+      await PlayerModel.deleteOne({_id:Room.players[i]._id})
+    }
+    await RoomModel.deleteOne({_id:_id})
+    pubSub.publish(`END_GAME ${_id}`,
+      {
+        endGame:{IsEnd:true},
+      }
+    )
+    return Room
+  }
 };
 
 

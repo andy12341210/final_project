@@ -27,4 +27,12 @@ subscription roomStateUpdate($_id:ID!){
 }
 `
 
-export {PLAYER_UPDATE_SUBSCRIPTION,ROOM_UPDATE_SUBSCRIPTION}
+const END_GAME_SUBSCRIPTION = gql`
+subscription endGame($_id:ID!){
+  endGame(_id:$_id){
+    IsEnd
+  }
+}
+`
+
+export {PLAYER_UPDATE_SUBSCRIPTION,ROOM_UPDATE_SUBSCRIPTION,END_GAME_SUBSCRIPTION}

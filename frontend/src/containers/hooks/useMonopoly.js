@@ -1,14 +1,15 @@
 import { createContext, useContext, useState ,useEffect} from 'react';
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
-import { CREATE_PLAYER_MUTATION,JOIN_ROOM_MUTATION,UPDATE_PLAYERS_MUTATION,LEAVE_ROOM_MUTATION,UPDATE_ROOM_MUTATION } from '../../graphql/mutations';
+import { CREATE_PLAYER_MUTATION,JOIN_ROOM_MUTATION,UPDATE_PLAYERS_MUTATION,LEAVE_ROOM_MUTATION,UPDATE_ROOM_MUTATION,DELETE_ROOM_MUTATION } from '../../graphql/mutations';
 import { ROOM_QUERIES } from '../../graphql/queries';
-import {PLAYER_UPDATE_SUBSCRIPTION,ROOM_UPDATE_SUBSCRIPTION} from "../../graphql/subscriptions"
+import {PLAYER_UPDATE_SUBSCRIPTION,ROOM_UPDATE_SUBSCRIPTION,END_GAME_SUBSCRIPTION} from "../../graphql/subscriptions"
 import { mapOwner } from '../../components/text/map';
 
 const MonopolyContext = createContext({
     isStarted : false,
     isSelected: false,
     isCharacterChoosed: false,
+    isGameEnd: false,
     roomState: {},
     isMe:false,
     isPrepared: false,
@@ -20,6 +21,7 @@ const MonopolyContext = createContext({
     roomId:"",
     Mode: 0,
     isEnd: false,
+    round: 0,
 });
 const template0 = {_id:"",name:"等待新玩家...",isPrepared:false,character:7,money:2000,position:0,isStop:0}
 const template1 = {_id:"",name:"等待新玩家...",isPrepared:false,character:7,money:2000,position:0,isStop:0}
@@ -33,6 +35,7 @@ const MonopolyProvider = (props) => {
     const [isStarted,setIsStarted] = useState(false)
     const [isSelected,setIsSelected] = useState(false)
     const [isCharacterChoosed,setIsCharacterChoosed] = useState(true)
+    const [isGameEnd,setIsGameEnd] = useState(false)
     const [roomState,setRoomState] = useState(RoomTemplate)
     const [isMe,setIsMe] = useState(true)
     const [isPrepared,setIsPrepared] = useState(false)
@@ -44,12 +47,14 @@ const MonopolyProvider = (props) => {
     const [roomId,setRoomId] = useState("63ae6a00462aad7ddca66d80")
     const [Mode,setMode] = useState(0)
     const [isEnd,setIsEnd] = useState(false)
+    const [round,setRound] = useState(0)
 
     const [createPlayer] = useMutation(CREATE_PLAYER_MUTATION)
     const [joinRoom] = useMutation(JOIN_ROOM_MUTATION)
     const [leaveRoom] = useMutation(LEAVE_ROOM_MUTATION)
     const [upDatePlayersToDB] = useMutation(UPDATE_PLAYERS_MUTATION)
     const [upDateRoom] = useMutation(UPDATE_ROOM_MUTATION)
+    const [deleteRoom] = useMutation(DELETE_ROOM_MUTATION);
     const { loading, error, subscribeToMore} = useQuery(ROOM_QUERIES,{variables:{_id:roomId}});
 
     const upDatePlayers = async(Ps,id)=>{
@@ -130,11 +135,34 @@ const MonopolyProvider = (props) => {
         [subscribeToMore,roomId],
     );
 
+    useEffect(
+        () => {
+            subscribeToMore({
+            document: END_GAME_SUBSCRIPTION,
+            variables:{_id:roomId},
+            updateQuery: (prev, { subscriptionData }) => {
+                if (!subscriptionData.data) return;
+                const data = subscriptionData.data.endGame;
+                console.log(data)
+                if(data){
+                    setIsGameEnd(true);
+                }
+            },
+            });
+        },
+        [subscribeToMore,roomId],
+    );
+
     useEffect(()=>{
         if(isEnd){
             let nextPlayer = roomState.currentPlayer+1
             if(nextPlayer>3)nextPlayer-=4
             upDateRoom({variables:{mapStatus:roomState.mapStatus,currentPlayer:(nextPlayer),_id:roomId}})
+            setRound(round+1)
+            console.log(round)
+            if(myPlayerPos === 3 && round+1 === 15){
+                deleteRoom({variables:{_id:roomId}})
+            }
         }
     },[isEnd])
 
@@ -144,7 +172,7 @@ const MonopolyProvider = (props) => {
                 isPrepared,setIsPrepared,createPlayer,myPlayerPos,setMyPlayerPos,joinRoom,myPlayerId,setMyPlayerId,
                 myName,setMyName,roomId,setRoomId,Players,setPlayers,upDatePlayers,upDatePlayersToDB,currentPlayers,setCurrentPlayers,
                 upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,upDateRoom,
-                isEnd,setIsEnd,
+                isEnd,setIsEnd,isGameEnd,setIsGameEnd,deleteRoom,round
             }}
             {...props}
         />

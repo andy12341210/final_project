@@ -28,10 +28,18 @@ const Icon_img = styled.img`
     top:45vh;
 `
 
+const RoundDisplay = styled.p`
+    position:absolute;
+    font-size: 2.5vw;
+    top:40vh;
+    left:2.5vw;
+
+`
+
 const Map = ()=>{
 
     const map_img = require("../picture/map/map.png")
-    const {Players,roomState} = useMonopoly();
+    const {Players,roomState,round} = useMonopoly();
     const playerIcon0 = require("../picture/character/i0.png")
     const playerIcon1 = require("../picture/character/i1.png")
     const playerIcon2 = require("../picture/character/i2.png")
@@ -47,12 +55,17 @@ const Map = ()=>{
     }
 
     useEffect(()=>{
+        moving(coordinate[0][0],coordinate[0][0])
+    },[roomState.isStarted])
+
+    useEffect(()=>{
         moving(coordinate[Players[roomState.currentPlayer].position][0],
             coordinate[Players[roomState.currentPlayer].position][1])
     },[roomState])
 
     return<>
         <Dice moving={moving}/>
+        <RoundDisplay>第{round}輪</RoundDisplay>
         <Camera>
             <Map_Img src={map_img} id="map"/>
             <Icon_img src={icon_list[roomState.currentPlayer]}/>
