@@ -11,6 +11,7 @@ export const ROOM_QUERIES = gql`
         character
         money
         position
+        isStop
       }
       }
   }

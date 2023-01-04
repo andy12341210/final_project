@@ -36,6 +36,7 @@ const LEAVE_ROOM_MUTATION = gql`
         character
         money
         position
+        isStop
       }
     }
   }

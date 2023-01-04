@@ -9,6 +9,7 @@ const PLAYER_UPDATE_SUBSCRIPTION = gql`
       character
       money
       position
+      isStop
     }
   }
 `;

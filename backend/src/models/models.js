@@ -13,7 +13,8 @@ const RoomSchema = new mongoose.Schema(
         isPrepared: { type: Boolean},
         character: {type: Number},
         money : { type: Number , required:[true, 'money field is required.']},
-        position: { type: Number , required:[true, 'position field is required.']}
+        position: { type: Number , required:[true, 'position field is required.']},
+        isStop: {type: Number}
     }],
   }
 );

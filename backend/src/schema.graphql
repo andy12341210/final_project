@@ -19,6 +19,7 @@ type Player {
     character: Int!
     money : Int!
     position: Int!
+    isStop: Int!
 }
 
 input PlayersInput {
@@ -28,6 +29,7 @@ input PlayersInput {
     character: Int
     money : Int
     position: Int
+    isStop: Int
 }
 
 type EventMessage {

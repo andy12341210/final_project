@@ -21,10 +21,10 @@ const MonopolyContext = createContext({
     Mode: 0,
     mapStatus:[],
 });
-const template0 = {_id:"",name:"等待新玩家...",isPrepared:false,character:3,money:2000,position:0}
-const template1 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0}
-const template2 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0}
-const template3 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0}
+const template0 = {_id:"",name:"等待新玩家...",isPrepared:false,character:6,money:2000,position:0,isStop:0}
+const template1 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0,isStop:0}
+const template2 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0,isStop:0}
+const template3 = {_id:"",name:"等待新玩家...",isPrepared:false,character:0,money:2000,position:0,isStop:0}
 const template = [template0,template1,template2,template3];
 const RoomTemplate = { isFull:false,playerAmount:0,isStarted:true,currentPlayer:0,currentDice:1}
 
