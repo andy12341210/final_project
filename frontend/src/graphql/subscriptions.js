@@ -22,6 +22,7 @@ subscription roomStateUpdate($_id:ID!){
     playerAmount
     currentDice
     currentPlayer
+    mapStatus
   }
 }
 `

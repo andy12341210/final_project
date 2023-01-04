@@ -1,9 +1,13 @@
 import { PlayerModel, RoomModel } from "../models/models.js";
+const mapOwner = [
+  [-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],
+  [-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],[-1,0],
+]
 
 const findEmptyRoom = async()=>{
   let Room = await RoomModel.findOne({isFull:false});
   if(!Room){
-    Room = await new RoomModel({ isFull:false,playerAmount:0,isStarted:false,currentPlayer:0,currentDice:1 }).save();
+    Room = await new RoomModel({ isFull:false,playerAmount:0,isStarted:false,currentPlayer:0,currentDice:1,mapStatus:mapOwner }).save();
   }
   return Room;
 }
@@ -55,9 +59,8 @@ const Mutation = {
   },
 
   upDatePlayers:async(parent, { players, _id }, { pubSub }) => {
+    await RoomModel.updateOne({_id:_id},{$set:{players:players}})
     let Room = await RoomModel.findById(_id);
-    Room.players = players
-    await Room.save();
     const player = players[0];
     pubSub.publish(`PLAYER_UPDATE ${_id}`
       ,{
@@ -75,10 +78,9 @@ const Mutation = {
     }
     return Room;
   },
-  upDateRoomState:async(parent, { currentPlayer,_id }, { pubSub }) => {
-    let Room = await RoomModel.findById(_id);
-    Room.currentPlayer = currentPlayer;
-    await Room.save();
+  upDateRoomState:async(parent, { mapStatus,currentPlayer,_id }, { pubSub }) => {
+    await RoomModel.updateOne({_id:_id},{$set:{currentPlayer:currentPlayer,mapStatus:mapStatus}})
+    const Room = await RoomModel.findById(_id)
     pubSub.publish(`ROOM_UPDATE ${_id}`
       ,{
         roomStateUpdate:Room,

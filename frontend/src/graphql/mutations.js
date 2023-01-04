@@ -51,13 +51,14 @@ const UPDATE_PLAYERS_MUTATION = gql`
   }
 `
 const UPDATE_ROOM_MUTATION = gql`
-  mutation upDateRoomState($currentPlayer: Int ,$_id: ID! ) {
-    upDateRoomState( currentPlayer: $currentPlayer, _id: $_id) {
+  mutation upDateRoomState($mapStatus:[[Int]], $currentPlayer: Int ,$_id: ID! ) {
+    upDateRoomState(mapStatus:$mapStatus, currentPlayer: $currentPlayer, _id: $_id) {
       isFull
       isStarted
       playerAmount
       currentDice
       currentPlayer
+      mapStatus
     }
   }
 `

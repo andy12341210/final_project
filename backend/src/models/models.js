@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const Mixed = mongoose.Schema.Types.Mixed;
+
 const RoomSchema = new mongoose.Schema(
   {
     isFull: { type: Boolean },
@@ -7,6 +9,7 @@ const RoomSchema = new mongoose.Schema(
     playerAmount: { type: Number },
     currentDice: { type: Number },
     currentPlayer: { type: Number },
+    mapStatus: {type:Mixed },
     players: [{
         _id: { type: String , required:[true, '_id field is required.']},
         name: { type: String , required:[true, 'name field is required.']},

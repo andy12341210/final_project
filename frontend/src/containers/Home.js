@@ -43,7 +43,6 @@ const Home = () => {
     const startGame = async(name)=>{
         setMyName(name);
         const {data} = await createPlayer({variables:{name:name}});
-        console.log(data.createPlayer)
         let _id = data.createPlayer._id
         setMyPlayerId(_id)
         setIsStarted(true);

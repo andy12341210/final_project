@@ -5,7 +5,7 @@ import {coordinate, mapType} from "./text/map";
 import {Place,dice_imgs} from "./PictureIndex";
 import { mapName } from "./text/map";
 import { gernRandom,sleep } from "./Functions";
-import { BuyModal,EventModal,upGradeModal,AbilityModal } from "./Modals";
+import { BuyModal,EventModal,upGradeModal,AbilityModal,payModal } from "./Modals";
 
 const DiceBox = styled.div`
     position:absolute;
@@ -50,7 +50,7 @@ const Dice = ({moving})=>{
     const diceFrame_img = require("../picture/dice/dice_background.png")
     const dice_ani = require("../picture/dice/dice_ani.gif")
     const {Players,myPlayerPos,upDatePlayers,roomId,roomState,setRoomState,isMe,setIsMe,
-        mapStatus,upDateRoom} = useMonopoly()
+        upDateRoom,setIsEnd} = useMonopoly()
     const dice = document.getElementById("dice")
     const Photo = document.getElementById("photo")
     const placeContent = document.getElementById("placeContent")
@@ -91,7 +91,7 @@ const Dice = ({moving})=>{
             }
             moving(newt,newl);
             if(Photo)Photo.src = Place[pos];
-            const context = `${mapName[pos]}<br/>擁有者：${mapStatus[pos][0]===-1?"":Players[mapStatus[pos][0]].name}<br/>等級：${mapStatus[pos][0]===-1?"":mapStatus[pos][1]}`
+            const context = `${mapName[pos]}<br/>擁有者：${roomState.mapStatus[pos][0]===-1?"":Players[roomState.mapStatus[pos][0]].name}<br/>等級：${roomState.mapStatus[pos][0]===-1?"":roomState.mapStatus[pos][1]}`
             if(placeContent)placeContent.innerHTML = context;
         }
         return temparr
@@ -106,27 +106,35 @@ const Dice = ({moving})=>{
     const Buying =(pos)=>{
         modifyMoney(roomState.currentPlayer,-200)
         if(Players[roomState.currentPlayer].character === 6)modifyMoney(roomState.currentPlayer,100)
-        mapStatus[pos][0] = roomState.currentPlayer;
+        roomState.mapStatus[pos][0] = roomState.currentPlayer;
+        setIsEnd(true);
     }
     
     const upgrading =(pos)=>{
         modifyMoney(roomState.currentPlayer,-200)
         if(Players[roomState.currentPlayer].character === 6)modifyMoney(roomState.currentPlayer,100)
-        mapStatus[pos][1] += 1;
+        roomState.mapStatus[pos][1] += 1;
+        setIsEnd(true);
     }
 
     const playEvent =async(event,pos)=>{
         let tempE = Players.slice();
         if(event === 1){
             let isOwn;
-            if(mapStatus[pos][0] === -1)isOwn = 0;
-            else if(mapStatus[pos][0] === myPlayerPos)isOwn = 1;
+            if(roomState.mapStatus[pos][0] === -1)isOwn = 0;
+            else if(roomState.mapStatus[pos][0] === myPlayerPos)isOwn = 1;
             else isOwn = 2;
             if(isOwn === 0){
                 BuyModal(()=>Buying(pos))
             }
             if(isOwn === 1){
                 upGradeModal(()=>upgrading(pos))
+            }
+            if(isOwn === 2){
+                modifyMoney(roomState.mapStatus[pos][0],300+roomState.mapStatus[pos][1]*300);
+                modifyMoney(roomState.currentPlayer,-300-roomState.mapStatus[pos][1]*300);
+                payModal(300+roomState.mapStatus[pos][1]*300);
+                setIsEnd(true);
             }
         }
         else if(event === 2){
@@ -154,6 +162,7 @@ const Dice = ({moving})=>{
                 await upDatePlayers(tempE,roomId)
             }
             else if(random === 8)modifyMoney(roomState.currentPlayer,-300)
+            setIsEnd(true);
         }
     }
 
@@ -170,6 +179,7 @@ const Dice = ({moving})=>{
             let nextPlayer = roomState.currentPlayer+1
             if(nextPlayer>3)nextPlayer-=4
             await upDateRoom({variables:{currentPlayer:(nextPlayer),_id:roomId}})
+            setIsEnd(true)
             return
         }
         display_ani()
@@ -194,15 +204,13 @@ const Dice = ({moving})=>{
 
         const pos = temp[roomState.currentPlayer].position
         const event = mapType[pos];
-        let tempm = mapStatus[pos]
+        let tempm = roomState.mapStatus[pos]
         if(Players[roomState.currentPlayer].character === 5){
             playEvent(2,pos)
         }
         playEvent(event,pos)
         
-        let nextPlayer = roomState.currentPlayer+1
-        if(nextPlayer>3)nextPlayer-=4
-        await upDateRoom({variables:{currentPlayer:(nextPlayer),_id:roomId}})
+        
     }
 
 

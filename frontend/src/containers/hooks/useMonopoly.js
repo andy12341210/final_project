@@ -19,14 +19,14 @@ const MonopolyContext = createContext({
     myName:"",
     roomId:"",
     Mode: 0,
-    mapStatus:[],
+    isEnd: false,
 });
 const template0 = {_id:"",name:"等待新玩家...",isPrepared:false,character:7,money:2000,position:0,isStop:0}
 const template1 = {_id:"",name:"等待新玩家...",isPrepared:false,character:7,money:2000,position:0,isStop:0}
 const template2 = {_id:"",name:"等待新玩家...",isPrepared:false,character:7,money:2000,position:0,isStop:0}
 const template3 = {_id:"",name:"等待新玩家...",isPrepared:false,character:7,money:2000,position:0,isStop:0}
 const template = [template0,template1,template2,template3];
-const RoomTemplate = { isFull:false,playerAmount:0,isStarted:false,currentPlayer:0,currentDice:1}
+const RoomTemplate = { isFull:false,playerAmount:0,isStarted:false,currentPlayer:0,currentDice:1,mapStatus:mapOwner}
 
 const MonopolyProvider = (props) => {
 
@@ -43,7 +43,7 @@ const MonopolyProvider = (props) => {
     const [myName,setMyName] = useState("")
     const [roomId,setRoomId] = useState("63ae6a00462aad7ddca66d80")
     const [Mode,setMode] = useState(0)
-    const [mapStatus,setMapStatus] = useState(mapOwner)
+    const [isEnd,setIsEnd] = useState(false)
 
     const [createPlayer] = useMutation(CREATE_PLAYER_MUTATION)
     const [joinRoom] = useMutation(JOIN_ROOM_MUTATION)
@@ -118,7 +118,10 @@ const MonopolyProvider = (props) => {
                 for(let i = 0; i<4; i++){
                     if(Players[i]._id === myPlayerId) myplayerpos = i
                 }
-                if(data.currentPlayer === myplayerpos)setIsMe(true)
+                if(data.currentPlayer === myplayerpos){
+                    setIsMe(true)
+                    setIsEnd(false)
+                }
                 else setIsMe(false)
                 setRoomState(data)
             },
@@ -127,13 +130,21 @@ const MonopolyProvider = (props) => {
         [subscribeToMore,roomId],
     );
 
+    useEffect(()=>{
+        if(isEnd){
+            let nextPlayer = roomState.currentPlayer+1
+            if(nextPlayer>3)nextPlayer-=4
+            upDateRoom({variables:{mapStatus:roomState.mapStatus,currentPlayer:(nextPlayer),_id:roomId}})
+        }
+    },[isEnd])
+
     return (
         <MonopolyContext.Provider
             value={{isStarted,setIsStarted,Mode,setMode,isSelected,setIsSelected,isCharacterChoosed,setIsCharacterChoosed,
                 isPrepared,setIsPrepared,createPlayer,myPlayerPos,setMyPlayerPos,joinRoom,myPlayerId,setMyPlayerId,
                 myName,setMyName,roomId,setRoomId,Players,setPlayers,upDatePlayers,upDatePlayersToDB,currentPlayers,setCurrentPlayers,
-                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,mapStatus,setMapStatus,upDateRoom,
-                
+                upDatePlayersfromDB,leaveRoom,roomState,setRoomState,isMe,setIsMe,upDateRoom,
+                isEnd,setIsEnd,
             }}
             {...props}
         />

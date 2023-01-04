@@ -49,7 +49,7 @@ const BuyModal = ( onCreate )=>{
         okText:"是",
         cancelText:"否",
         content:(
-            <p>價格：100</p>
+            <p>價格：200元</p>
         ),
         onCancel(){},
         onOk(){onCreate()}
@@ -62,10 +62,21 @@ const upGradeModal = ( onCreate )=>{
         okText:"是",
         cancelText:"否",
         content:(
-            <p>價格：100</p>
+            <p>價格：100元</p>
         ),
         onCancel(){},
         onOk(){onCreate()}
+    })
+}
+
+const payModal = ( money )=>{
+    Modal.info({
+        title:"過路費",
+        okText:"哭阿",
+        content:(
+            <p>價格：{money}元</p>
+        ),
+        onOk(){}
     })
 }
 
@@ -91,4 +102,4 @@ const AbilityModal = (no)=>{
     
 }
 
-export {NameModal,BuyModal,EventModal,upGradeModal,AbilityModal};
+export {NameModal,BuyModal,EventModal,upGradeModal,AbilityModal,payModal};

@@ -9,6 +9,7 @@ type Room {
     playerAmount: Int
     currentDice: Int
     currentPlayer: Int
+    mapStatus: [[Int]]
     players: [Player!]
 }
 
@@ -54,7 +55,7 @@ type Mutation {
     leaveRoom( _id: ID!, pos: Int! ): Room
     createPlayer( name:String!): NewPlayer!
     upDatePlayers( players: [PlayersInput], _id: ID ): Room
-    upDateRoomState( currentPlayer:Int , _id:ID ): Room
+    upDateRoomState( mapStatus:[[Int]], currentPlayer:Int , _id:ID ): Room
 }
 
 type Subscription {
