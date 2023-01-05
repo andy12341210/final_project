@@ -3,6 +3,7 @@ import httpServer from "./server.js";
 import express from "express"
 import cors from "cors"
 import path from "path"
+import { Router } from "express";
 
 import "dotenv-defaults/config.js";
 
@@ -11,9 +12,11 @@ const port = process.env.PORT | 4000;
 const port2 = process.env.PORT | 4001;
 
 const app = express();
+const router = Router()
 
 app.use(cors());
 app.use(express.json());
+app.use("/",router)
 
 if (process.env.NODE_ENV === "production") {
     const __dirname = path.resolve();
