@@ -62,9 +62,9 @@ const SelectMode = ()=>{
             <Background_img src={home_screen_img} alt="background" id="home_img"/>
             <SelectWord>請選擇模式</SelectWord>
             <ButtonsWrapper>
-                <Button type='primary' size='large' onClick={selecting0}>多人模式</Button>
-                <Button type='primary' size='large' onClick={selecting1}>人機對戰</Button>
-                <Button type='primary' size='large' onClick={selecting2}>創建房間</Button>
+                <Button type='primary' size='large' onClick={selecting0}>尋找房間</Button>
+                {/* <Button type='primary' size='large' onClick={selecting1}>人機對戰</Button>
+                <Button type='primary' size='large' onClick={selecting2}>創建房間</Button> */}
             </ButtonsWrapper>
         </div>
     );
