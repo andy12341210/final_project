@@ -11,6 +11,7 @@ const Introword = styled.p`
     z-index:6;
     top:5vh;
     left:5vh;
+    width:25vw;
 `
 
 const Introduction = ({Mode,n})=>{

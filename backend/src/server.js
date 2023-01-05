@@ -30,7 +30,6 @@ const yoga = createYoga({
     RoomModel,
     PlayerModel
   },
-  graphqlEndpoint: '/graphql',
   graphiql: {
     subscriptionsProtocol: 'WS'
   }

@@ -16,7 +16,7 @@ const intro4 = `
 `
 const intro5 = `
 猴子：
-台大的猴子們(誤)，骰子點數自動加2
+台大的猴子們(X，骰子點數自動加2
 
 `
 const intro6 = `

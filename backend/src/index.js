@@ -12,10 +12,10 @@ const port2 = process.env.PORT | 4001;
 
 const app = express();
 
+app.use(cors());
+app.use(express.json());
 
 if (process.env.NODE_ENV === "production") {
-    app.use(cors());
-    app.use(express.json());
     const __dirname = path.resolve();
     app.use(express.static(path.join(__dirname, "../frontend", "build")));
     app.get("/*", function (req, res) {
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "production") {
   }
 
 app.listen(port2, () =>
- console.log(`app listening on port ${port}!`),
+ console.log(`app listening on port ${port2}!`),
 );
 
 
