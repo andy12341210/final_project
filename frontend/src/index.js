@@ -19,11 +19,11 @@ const WS_URL = process.env.NODE_ENV === "production"
   : "ws://localhost:4000/graphql";
 
 const httpLink = new HttpLink({
-  uri: httpuri
+  uri: "http://localhost:4000/graphql"
   });
 
 const wsLink = new GraphQLWsLink(createClient({
-  url: WS_URL,
+  url: "ws://localhost:4000/graphql",
   options: {
     lazy: true,
   },
